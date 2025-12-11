@@ -1,0 +1,13 @@
+pytest
+pandas
+numpy
+matplotlib
+scipy
+seaborn
+pyparsing
+xlsxwriter
+openpyxl
+sqlalchemy
+freezegun
+scikit-learn
+graphviz
