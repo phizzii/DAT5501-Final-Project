@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import random
 from datasets import Dataset
+from langdetect import detect
 
 # path to the unzipped steam review files in raw data folder (which is in gitignore)
 steam_reviews_dir = "raw_data/Game Reviews"
@@ -25,6 +26,12 @@ for file in files:
     file_path = os.path.join(steam_reviews_dir, file)
     
     dataframe = pd.read_csv(file_path)
+
+    dataframe = dataframe.dropna(subset=["review"])
+
+    dataframe["lang"] = dataframe["review"].apply(lambda x: detect(x))
+
+    dataframe = dataframe[dataframe["lang"] == "en"]
 
     dataframe = dataframe.sample(frac=1, random_state=42)
 
