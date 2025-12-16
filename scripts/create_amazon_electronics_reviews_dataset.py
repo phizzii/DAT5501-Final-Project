@@ -3,7 +3,7 @@ from itertools import islice
 from datasets import load_dataset
 from datasets import Dataset
 
-dataset_stream = load_dataset("json", data_files="hf://datasets/McAuley-Lab/Amazon-Reviews-2023/raw/review_categories/Amazon_Fashion.jsonl", split="train", streaming=True)
+dataset_stream = load_dataset("json", data_files="hf://datasets/McAuley-Lab/Amazon-Reviews-2023/raw/review_categories/Electronics.jsonl", split="train", streaming=True)
 
 first = next(iter(dataset_stream))
 print(first.keys())
