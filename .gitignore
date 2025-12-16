@@ -1,0 +1,5 @@
+# massive raw datasets (i learnt this the hard way)
+raw_data/
+
+# processed ones
+datasets/
