@@ -16,3 +16,6 @@ sampled = list(islice(dataset_stream.shuffle(buffer_size=100_000, seed=42), samp
 
 dataset = Dataset.from_list(sampled)
 print(dataset)
+
+# SAVING THE DATASET TO MY REPO SO I DON'T NEED TO RUN THIS SCRIPT AGAIN
+dataset.save_to_disk("datasets/amazon_electronic_reviews_10k")
