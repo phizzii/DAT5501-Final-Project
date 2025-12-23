@@ -8,7 +8,7 @@ dataset_stream = load_dataset("json", data_files="hf://datasets/McAuley-Lab/Amaz
 first = next(iter(dataset_stream))
 print(first.keys())
 
-random.seed(42)
+random.seed(33) # fav number, not technically important
 
 sample_size = 10_000
 

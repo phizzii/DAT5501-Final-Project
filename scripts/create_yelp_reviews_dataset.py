@@ -5,7 +5,7 @@ dataset = load_dataset("Yelp/yelp_review_full", split="train")
 
 print(dataset.features)
 
-random.seed(42)
+random.seed(33) # fav number, not technically important
 
 sample_size = 25_000
 dataset_sampled = dataset.shuffle(seed=42).select(range(sample_size))

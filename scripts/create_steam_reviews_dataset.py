@@ -5,7 +5,7 @@ import random
 from datasets import Dataset
 from langdetect import detect, DetectorFactory, LangDetectException
 
-DetectorFactory.seed = 42
+DetectorFactory.seed = 33 # fav number, not technically important
 
 def safe_detect(text):
     try:
@@ -16,7 +16,7 @@ def safe_detect(text):
 # path to the unzipped steam review files in raw data folder (which is in gitignore)
 steam_reviews_dir = "raw_data/Game Reviews"
 
-random.seed(42)
+random.seed(33) # fav number, not technically important
 target_size = 25_000
 
 sampled_rows = []
