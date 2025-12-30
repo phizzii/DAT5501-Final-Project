@@ -14,3 +14,16 @@
 # model options (all used not just one): decision tree (because feature importance for business insight), random forest (for robustness and performance comparison), logistic regression (as a baseline checker and interpretability)
 
 # evaluation metrics: the aim is not for perfect accuracy so i'm going to use precision because sometimes models can give false positives!! (which would be costly for a business), recall because sometimes negative reviews may be missed which happens to also be costly to the business (you can see where this is going)
+
+# how i'm mapping these to my hypotheses:
+# H1
+# analysis: label reviews using star ratings (maybe maybe not), extract sentiment & linguistic features, train classifier (decision tree/logic), evaluate performance (precision & recall), inspect feature importance
+# evidence presented: classification report, feature importance plot, discussion of which features dominate
+
+# H2
+# analysis: filter only negative reviews, group by platform, compare feature distributions (length, sentiment intensity, linguistic markers), train platform specific models or include platform as a feature (not sure yet)
+# evidence presented: boxplot/density plots per platform, feature importance differences, model performance differences
+
+# H3
+# analysis: order reviews temporally, track the following; sentiment trend, linguistic intensity trend, average rating trend
+# evidence presented: time series plots, qualitative interpretation
