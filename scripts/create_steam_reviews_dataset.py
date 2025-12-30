@@ -59,3 +59,6 @@ for file in files:
 
 steam_dataset = Dataset.from_list(sampled_rows)
 print(steam_dataset)
+
+# SAVING THE DATASET TO MY REPO SO I DON'T NEED TO RUN THIS SCRIPT AGAIN
+steam_dataset.save_to_disk("datasets/steam_reviews_25k")
