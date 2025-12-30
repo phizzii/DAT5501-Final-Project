@@ -27,3 +27,45 @@
 # H3
 # analysis: order reviews temporally, track the following; sentiment trend, linguistic intensity trend, average rating trend
 # evidence presented: time series plots, qualitative interpretation
+
+# negative_experience = 1 if rating <= 2
+# negative_experience = 0 if rating >= 4
+# rating = 3 > excluded as neutral reviews are ambiguous
+
+import pandas as pd
+import numpy as np
+from textblob import TextBlob
+from datetime import datetime
+from datasets import Dataset, load_dataset, load_from_disk
+
+def label_negative_experience(rating):
+    if rating <= 2:
+        return 1
+    elif rating >= 4:
+        return 0
+    else:
+        return np.nan # dropping neutral reviews
+    
+def extract_text_features(text):
+    blob = TextBlob(text)
+    words = text.split()
+    sentences = blob.sentences
+
+    return pd.Series({
+        "sentiment_polarity": blob.sentiment.polarity,
+        "sentiment_subjectivity": blob.sentiment.subjectivity,
+        "review_length_words": len(words),
+        "review_length_chars": len(text),
+        "avg_sentence_length": np.mean([len(s.words) for s in sentences]),
+        "exclamation_count": text.count("!"),
+        "capital_ratio": sum(1 for c in text if c.isupper()) / max(len(text), 1)
+    })
+
+# writing as main function because then we can use circleci testing dashboard later
+def main():
+    # loading sampled amazon beauty and personal care dataset
+    dataframe_arrow = load_from_disk("datasets/amazon_beauty_reviews_10k/data-00000-of-00001.arrow")
+    dataframe = dataframe_arrow.to_pandas()
+    dataframe.to_csv("datasets/csvs/amazon_beauty.csv", index=False)
+
+main()
