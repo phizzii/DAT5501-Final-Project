@@ -46,12 +46,11 @@ from datasets import Dataset, load_dataset, load_from_disk
 
 # modules for training model
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report
-
 
 def label_negative_experience(rating):
     if rating <= 2:
@@ -155,14 +154,23 @@ def main():
         "capital_ratio"
     ]
 
+    numeric_features = [
+        "helpful_vote",
+        "review_age_days",
+        "sentiment_polarity",
+        "sentiment_subjectivity",
+        "review_length_words",
+        "review_length_chars",
+        "avg_sentence_length",
+        "exclamation_count",
+        "capital_ratio"
+    ]
+
     x = dataframe[feature_cols]
     y = dataframe["negative_experience"].astype(int)
 
     preprocessor = ColumnTransformer(
-        transformers=[
-            ("verified_ohe", OneHotEncoder(drop="if_binary"), ["verified_purchase"])
-        ], remainder="passthrough"
-    )
+        transformers=[("verified_ohe", OneHotEncoder(drop="if_binary"), ["verified_purchase"]), ("num_scaler", StandardScaler(), numeric_features)], remainder="drop")
 
     model = Pipeline(steps=[
         ("preprocess", preprocessor),
