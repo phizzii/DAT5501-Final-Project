@@ -40,7 +40,7 @@ import pandas as pd
 import numpy as np
 from regex import D
 from sqlalchemy import asc
-from textblob import TextBlob, download_corpora
+from textblob import TextBlob
 from datetime import date, datetime
 from datasets import Dataset, load_dataset, load_from_disk
 
