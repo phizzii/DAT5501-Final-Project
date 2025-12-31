@@ -34,6 +34,7 @@
 
 import pandas as pd
 import numpy as np
+from sqlalchemy import asc
 from textblob import TextBlob, download_corpora
 from datetime import date, datetime
 from datasets import Dataset, load_dataset, load_from_disk
@@ -47,9 +48,31 @@ def label_negative_experience(rating):
         return np.nan # dropping neutral reviews
     
 def extract_text_features(text):
+    # making sure text is a usable string
+    if not isinstance(text, str):
+        text = "" if pd.isna(text) else str(text)
+
+    text = text.strip()
+    if len(text) == 0:
+        # return safe defaults
+        return pd.Series({
+        "sentiment_polarity": 0.0,
+        "sentiment_subjectivity": 0.0,
+        "review_length_words": 0,
+        "review_length_chars": 0,
+        "avg_sentence_length": 0.0,
+        "exclamation_count": 0,
+        "capital_ratio": 0.0
+    })
+
     blob = TextBlob(text)
     words = text.split()
     sentences = blob.sentences
+
+    if len(sentences) == 0:
+        avg_sentence_length = 0.0
+    else:
+        avg_sentence_length = float(np.mean([len(s.words) for s in sentences]))
 
     return pd.Series({
         "sentiment_polarity": blob.sentiment.polarity,
@@ -60,6 +83,7 @@ def extract_text_features(text):
         "exclamation_count": text.count("!"),
         "capital_ratio": sum(1 for c in text if c.isupper()) / max(len(text), 1)
     })
+
 
 # writing as main function because then we can use circleci testing dashboard later
 def main():
@@ -83,6 +107,7 @@ def main():
     # labelling target
     dataframe["negative_experience"] = dataframe["rating"].apply(label_negative_experience)
     dataframe = dataframe.dropna(subset=["negative_experience"])
+    dataframe["negative_experience"] = dataframe["negative_experience"].astype(int)
 
     # convert timestamp to see how old the review is
     dataframe["timestamp"] = pd.to_datetime(dataframe["timestamp"], unit="ms")
@@ -97,7 +122,8 @@ def main():
     # final clean up,,, i hope
     dataframe = dataframe.drop(columns=["text", "timestamp"])
 
-    print(dataframe.head())
-    print(dataframe.info())
+    print("rows:", len(dataframe))
+    print("missing per column:\n", dataframe.isna().sum().sort_values(ascending=False).head(10))
+    print("target balance\n", dataframe["negative_experience"].value_counts(normalize=True))
 
 main()
