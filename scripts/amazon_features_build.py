@@ -32,12 +32,26 @@
 # negative_experience = 0 if rating >= 4
 # rating = 3 > excluded as neutral reviews are ambiguous
 
+# feature engineering BEFORE the training which will come later ;)
+# modules for preprocessing and cleaning dataset
+from multiprocessing import Pipe
+import random
 import pandas as pd
 import numpy as np
+from regex import D
 from sqlalchemy import asc
 from textblob import TextBlob, download_corpora
 from datetime import date, datetime
 from datasets import Dataset, load_dataset, load_from_disk
+
+# modules for training model
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report
+
 
 def label_negative_experience(rating):
     if rating <= 2:
@@ -125,5 +139,51 @@ def main():
     print("rows:", len(dataframe))
     print("missing per column:\n", dataframe.isna().sum().sort_values(ascending=False).head(10))
     print("target balance\n", dataframe["negative_experience"].value_counts(normalize=True))
+
+    # model training!
+
+    feature_cols = [
+        "helpful_vote",
+        "verified_purchase",
+        "review_age_days",
+        "sentiment_polarity",
+        "sentiment_subjectivity",
+        "review_length_words",
+        "review_length_chars",
+        "avg_sentence_length",
+        "exclamation_count",
+        "capital_ratio"
+    ]
+
+    x = dataframe[feature_cols]
+    y = dataframe["negative_experience"]
+
+    preprocessor = ColumnTransformer(
+        transformers=[
+            ("verified_ohe", OneHotEncoder(drop="if_binary"), ["verified_purchase"])
+        ], remainder="passthrough"
+    )
+
+    model = Pipeline(steps=[
+        ("preprocess", preprocessor),
+        ("classifier", LogisticRegression(
+            class_weight="balanced",
+            max_iter=1000,
+            random_state=33
+        ))
+    ])
+
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, stratify=y, random_state=33)
+
+    model.fit(x_train, y_train)
+    y_pred = model.predict(x_test)
+
+    print(classification_report(y_test, y_pred))
+
+
+
+
+
+
 
 main()
