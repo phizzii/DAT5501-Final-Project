@@ -89,8 +89,10 @@ def main():
     dataframe["review_age_days"] = (datetime.now() - dataframe["timestamp"]).dt.days
 
     # extract the text features
+    dataframe = dataframe.reset_index(drop=True)
     text_features = dataframe["text"].apply(extract_text_features)
-    dataframe = pd.concat([dataframe.reset_index(drop=True), text_features], axis=1)
+    text_features = text_features.reset_index(drop=True)
+    dataframe = pd.concat([dataframe, text_features], axis=1)
 
     # final clean up,,, i hope
     dataframe = dataframe.drop(columns=["text", "timestamp"])
