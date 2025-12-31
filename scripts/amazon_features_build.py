@@ -156,7 +156,7 @@ def main():
     ]
 
     x = dataframe[feature_cols]
-    y = dataframe["negative_experience"]
+    y = dataframe["negative_experience"].astype(int)
 
     preprocessor = ColumnTransformer(
         transformers=[
@@ -168,7 +168,7 @@ def main():
         ("preprocess", preprocessor),
         ("classifier", LogisticRegression(
             class_weight="balanced",
-            max_iter=1000,
+            max_iter=2000,
             random_state=33
         ))
     ])
@@ -177,13 +177,15 @@ def main():
 
     model.fit(x_train, y_train)
     y_pred = model.predict(x_test)
+    
+    final_feature_names = model.named_steps["preprocess"].get_feature_names_out().tolist()
 
-    print(classification_report(y_test, y_pred))
+    feature_importance = pd.Series(
+        model.named_steps["classifier"].coef_[0],
+        index=final_feature_names).sort_values(key=lambda s: s.abs(), ascending=False)
+    
+    print(feature_importance)
 
-
-
-
-
-
+    print(classification_report(y_test, y_pred, zero_division=0))
 
 main()
