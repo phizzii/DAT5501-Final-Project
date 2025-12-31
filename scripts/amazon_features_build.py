@@ -34,8 +34,8 @@
 
 import pandas as pd
 import numpy as np
-from textblob import TextBlob
-from datetime import datetime
+from textblob import TextBlob, download_corpora
+from datetime import date, datetime
 from datasets import Dataset, load_dataset, load_from_disk
 
 def label_negative_experience(rating):
@@ -64,8 +64,38 @@ def extract_text_features(text):
 # writing as main function because then we can use circleci testing dashboard later
 def main():
     # loading sampled amazon beauty and personal care dataset
-    dataframe_arrow = load_from_disk("datasets/amazon_beauty_reviews_10k/data-00000-of-00001.arrow")
+    dataframe_arrow = load_from_disk("datasets/amazon_beauty_reviews_10k")
     dataframe = dataframe_arrow.to_pandas()
     dataframe.to_csv("datasets/csvs/amazon_beauty.csv", index=False)
+
+    # keeping the main columns i need
+    dataframe = dataframe[[
+        "rating",
+        "text",
+        "helpful_vote",
+        "verified_purchase",
+        "timestamp"
+    ]]
+
+    # dropping missing text
+    dataframe = dataframe.dropna(subset=["text"])
+
+    # labelling target
+    dataframe["negative_experience"] = dataframe["rating"].apply(label_negative_experience)
+    dataframe = dataframe.dropna(subset=["negative_experience"])
+
+    # convert timestamp to see how old the review is
+    dataframe["timestamp"] = pd.to_datetime(dataframe["timestamp"], unit="ms")
+    dataframe["review_age_days"] = (datetime.now() - dataframe["timestamp"]).dt.days
+
+    # extract the text features
+    text_features = dataframe["text"].apply(extract_text_features)
+    dataframe = pd.concat([dataframe.reset_index(drop=True), text_features], axis=1)
+
+    # final clean up,,, i hope
+    dataframe = dataframe.drop(columns=["text", "timestamp"])
+
+    print(dataframe.head())
+    print(dataframe.info())
 
 main()
