@@ -64,7 +64,7 @@ def extract_text_features(text):
 
 # writing as main function because then we can use circleci testing dashboard later
 def main():
-    # loading sampled amazon beauty and personal care dataset
+    # loading sampled amazon electronics dataset
     dataframe_arrow = load_from_disk("datasets/amazon_electronic_reviews_10k")
     dataframe = dataframe_arrow.to_pandas()
     dataframe.to_csv("datasets/csvs/amazon_electronics.csv", index=False)
