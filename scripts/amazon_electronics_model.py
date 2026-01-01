@@ -160,4 +160,9 @@ def main():
 
     print(classification_report(y_test, y_pred, zero_division=0))
 
+    output_path = "datasets/processed/amazon_electronics_features.csv"
+    dataframe.to_csv(output_path, index=False)
+
+    print("processed feature dataset save to: " + output_path)
+
 main()
