@@ -16,10 +16,10 @@ from sklearn.pipeline import Pipeline
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report
 
-def label_negative_experience(rating):
-    if rating == "Recommended" :
+def label_negative_experience(recommend):
+    if recommend == "Not Recommended" :
         return 1
-    elif rating == "Not Recommended":
+    elif recommend == "Recommended":
         return 0
     else:
         return np.nan # dropping neutral reviews
@@ -87,9 +87,10 @@ def main():
     dataframe = dataframe.dropna(subset=["negative_experience"])
     dataframe["negative_experience"] = dataframe["negative_experience"].astype(int)
 
-    # convert timestamp to see how old the review is
-    dataframe["post_date"] = pd.to_datetime(dataframe["post_date"], unit="ms")
-    dataframe["review_age_days"] = (datetime.now() - dataframe["post_date"]).dt.days
+    # convert post_date to see how old the review is
+    dataframe["post_date"] = pd.to_datetime(dataframe["post_date"], errors="coerce")
+    dataframe = dataframe.dropna(subset=["post_date"])
+    dataframe["review_age_days"] = (pd.Timestamp.now() - dataframe["post_date"]).dt.days
 
     # extract the text features
     dataframe = dataframe.reset_index(drop=True)
@@ -97,7 +98,6 @@ def main():
     text_features = text_features.reset_index(drop=True)
     dataframe = pd.concat([dataframe, text_features], axis=1)
 
-    # final clean up,,, i hope
     dataframe = dataframe.drop(columns=["review", "post_date"])
 
     print("rows:", len(dataframe))
@@ -109,7 +109,6 @@ def main():
     feature_cols = [
         "playtime",
         "helpfulness",
-        "early_access_review",
         "review_age_days",
         "sentiment_polarity",
         "sentiment_subjectivity",
@@ -133,8 +132,13 @@ def main():
         "capital_ratio"
     ]
 
-    x = dataframe[feature_cols]
-    y = dataframe["negative_experience"].astype(int)
+    # cause this is a unique column, it either is or isn't early access
+    categorical_features = [
+        "early_access_review"
+    ]
+
+    x = dataframe[feature_cols + categorical_features]
+    y = dataframe["negative_experience"]
 
     preprocessor = ColumnTransformer(
         transformers=[("early_access_ohe", OneHotEncoder(drop="if_binary"), ["early_access_review"]), ("num_scaler", StandardScaler(), numeric_features)], remainder="drop")
