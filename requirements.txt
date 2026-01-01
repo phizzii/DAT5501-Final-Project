@@ -11,3 +11,9 @@ sqlalchemy
 freezegun
 scikit-learn
 graphviz
+multiprocessing
+random
+regex
+textblob
+datetime
+datasets
