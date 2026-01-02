@@ -201,4 +201,15 @@ def main():
 
     print("processed feature dataset save to: " + output_path)
 
+    feature_names = model.named_steps["preprocess"].get_feature_names_out().tolist()
+    
+    coefs = model.named_steps["classifier"].coef_[0]
+
+    coef_df = pd.DataFrame({
+        "feature": feature_names,
+        "coef": coefs
+    }).sort_values("coef")
+
+    coef_df.to_csv("coefs/amazon_beauty_coefs.csv", index=False)
+
 main()

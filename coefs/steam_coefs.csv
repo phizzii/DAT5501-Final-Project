@@ -1,0 +1,12 @@
+feature,coef
+num_scaler__sentiment_polarity,-1.1305153323035173
+num_scaler__review_length_chars,-0.7661651190357319
+early_access_ohe__early_access_review_Early Access Review,-0.6827645087198106
+num_scaler__exclamation_count,-0.18332501989887115
+num_scaler__sentiment_subjectivity,-0.14089374351199566
+num_scaler__capital_ratio,-0.02615911447941091
+num_scaler__playtime,0.0373858964977493
+num_scaler__helpfulness,0.0661721299990917
+num_scaler__review_age_days,0.20517020975310304
+num_scaler__avg_sentence_length,0.2117275808420125
+num_scaler__review_length_words,1.0425393265099565
