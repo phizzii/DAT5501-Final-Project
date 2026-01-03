@@ -41,7 +41,7 @@ def clean_feature_name(raw_name: str) -> str:
         if not deduped or deduped[-1].lower() != t.lower():
             deduped.append(t)
     name = " ".join(deduped)
-    
+
     return name
 
 
@@ -217,7 +217,7 @@ def main():
         "steam": feature_paths["steam"],
         "yelp": feature_paths["yelp"],
     }
-    plot_top_coefficients(fig2_map, out_dir)
+    violin_by_platform(fig2_map, out_dir)
 
     # fig 3: sentiment vs rating/recommend (one per platform type, again, one for amazon since theres many and beauty will be fine for this tbh)
     plot_text_signal_vs_rating(feature_paths["amazon_beauty"], "amazon_beauty", out_dir)
