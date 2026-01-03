@@ -33,8 +33,15 @@ def clean_feature_name(raw_name: str) -> str:
     # handle one-hot outputs like "verified purchase True"
     name = name.replace("Verified purchase true", "Verified purchase: True")
     name = name.replace("Verified purchase false", "Verified purchase: False")
-    name = name.replace("Early access review Early access review", "Early Access Review")
+    name = name.replace("Early access review Early access review", "Early Access Review (flag)")
 
+    tokens = name.split()
+    deduped = []
+    for t in tokens:
+        if not deduped or deduped[-1].lower() != t.lower():
+            deduped.append(t)
+    name = " ".join(deduped)
+    
     return name
 
 
