@@ -73,47 +73,30 @@ def plot_top_coefficients(coef_csv_path: str, dataset_key: str, out_dir: str, to
     plt.close()
 
 # fig 2 (h2): cross-platform distributions (negative only)
-def plot_cross_platform_distributions(feature_csv_map: dict, out_dir: str):
-    needed_cols = ["negative_experience", "sentiment_polarity", "review_length_words", "exclamation_count"]
+def trim_series(s: pd.Series, low_q=0.01, high_q=0.99) -> pd.Series:
+    lo = s.quantile(low_q)
+    hi = s.quantile(high_q)
+    return s[(s >= lo) & (s <= hi)]
 
-    all_rows = []
-    for key, path in feature_csv_map.items():
-        df = pd.read_csv(path)
+def violin_by_platform(df: pd.DataFrame, value_col: str, title: str, out_path: str):
+    # df must have columns: platform, value_col
+    platforms = sorted(df["platform"].unique())
 
-        # keep only columns that exist
-        missing = [c for c in needed_cols if c not in df.columns]
-        if missing:
-            print(f"Skipping {key} for Figure 2 (missing columns: {missing})")
-            continue
+    data = []
+    for p in platforms:
+        s = df.loc[df["platform"] == p, value_col].dropna()
+        s = trim_series(s, 0.01, 0.99)  # trim extremes
+        data.append(s.values)
 
-        df = df[needed_cols].copy()
-        df = df[df["negative_experience"] == 1].copy()
-        df["platform"] = dataset_display_name(key)
-        all_rows.append(df)
+    plt.figure(figsize=(10, 6))
+    parts = plt.violinplot(data, showmeans=True, showmedians=True)
 
-    if not all_rows:
-        print("No datasets had the required columns for Figure 2.")
-        return
-
-    combined = pd.concat(all_rows, ignore_index=True)
-
-    # 3 boxplots (one per feature)
-    for col, title in [
-        ("sentiment_polarity", "Sentiment polarity (negative reviews only)"),
-        ("review_length_words", "Review length in words (negative reviews only)"),
-        ("exclamation_count", "Exclamation count (negative reviews only)")
-    ]:
-        plt.figure(figsize=(10, 6))
-        combined.boxplot(column=col, by="platform", grid=False)
-        plt.title(title)
-        plt.suptitle("")  # remove pandas default subtitle
-        plt.xlabel("Platform")
-        plt.ylabel(col.replace("_", " ").title())
-        plt.tight_layout()
-
-        out_path = os.path.join(out_dir, f"fig2_cross_platform_{col}.png")
-        plt.savefig(out_path, dpi=200)
-        plt.close()
+    plt.xticks(range(1, len(platforms) + 1), platforms, rotation=0)
+    plt.title(title + " (trimmed 1st - 99th percentile)")
+    plt.ylabel(value_col.replace("_", " ").title())
+    plt.tight_layout()
+    plt.savefig(out_path, dpi=200)
+    plt.close()
 
 # fig 3 (h3): text signal vs rating level / recommend group
 def plot_text_signal_vs_rating(feature_csv_path: str, dataset_key: str, out_dir: str):
@@ -227,7 +210,7 @@ def main():
         "steam": feature_paths["steam"],
         "yelp": feature_paths["yelp"],
     }
-    plot_cross_platform_distributions(fig2_map, out_dir)
+    plot_top_coefficients(fig2_map, out_dir)
 
     # fig 3: sentiment vs rating/recommend (one per platform type, again, one for amazon since theres many and beauty will be fine for this tbh)
     plot_text_signal_vs_rating(feature_paths["amazon_beauty"], "amazon_beauty", out_dir)
