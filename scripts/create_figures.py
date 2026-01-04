@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# hopefully fix label problem for steam
+# hopefully fix label problem for steam. NOW IT DOES
 def clean_feature_name(name: str) -> str:
     prefixes = [
         "num_scaler__",
@@ -13,13 +13,14 @@ def clean_feature_name(name: str) -> str:
     for p in prefixes:
         name = name.replace(p, "")
 
+    # special case: steam early access one-hot names
+    # example raw: early_access_review_Early Access Review
+    if name.startswith("early_access_review_"):
+        return "Early Access Review"
+
+    # general formatting
     name = name.replace("_", " ").strip()
-
-    if "Early access review" in name:
-        return "Early Access Review (flag)"
-
     return name.title()
-
 
 def trim_series(series: pd.Series, low=0.01, high=0.99) -> pd.Series:
     return series.clip(
