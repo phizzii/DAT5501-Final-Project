@@ -1,0 +1,49 @@
+Date : 2026-01-04 23:43:02
+Directory : /Users/sophieb/Visual Studio Code/DAT5501-Final-Project
+Total : 18 files,  1149 codes, 125 comments, 354 blanks, all 1628 lines
+
+Languages
++------------------+------------+------------+------------+------------+------------+
+| language         | files      | code       | comment    | blank      | total      |
++------------------+------------+------------+------------+------------+------------+
+| Python           |         14 |      1,039 |        115 |        316 |      1,470 |
+| Markdown         |          1 |         56 |         10 |         31 |         97 |
+| YAML             |          1 |         33 |          0 |          7 |         40 |
+| pip requirements |          1 |         19 |          0 |          0 |         19 |
+| Ini              |          1 |          2 |          0 |          0 |          2 |
++------------------+------------+------------+------------+------------+------------+
+
+Directories
++-----------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                  | files      | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                     |         18 |      1,149 |        125 |        354 |      1,628 |
+| . (Files)                                                                                                             |          3 |         77 |         10 |         31 |        118 |
+| .circleci                                                                                                             |          1 |         33 |          0 |          7 |         40 |
+| scripts                                                                                                               |         14 |      1,039 |        115 |        316 |      1,470 |
++-----------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-----------------------------------------------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+
+| filename                                                                                                              | language         | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+
+| /Users/sophieb/Visual Studio Code/DAT5501-Final-Project/.circleci/config.yml                                          | YAML             |         33 |          0 |          7 |         40 |
+| /Users/sophieb/Visual Studio Code/DAT5501-Final-Project/README.md                                                     | Markdown         |         56 |         10 |         31 |         97 |
+| /Users/sophieb/Visual Studio Code/DAT5501-Final-Project/pytest.ini                                                    | Ini              |          2 |          0 |          0 |          2 |
+| /Users/sophieb/Visual Studio Code/DAT5501-Final-Project/requirements.txt                                              | pip requirements |         19 |          0 |          0 |         19 |
+| /Users/sophieb/Visual Studio Code/DAT5501-Final-Project/scripts/__init__.py                                           | Python           |          0 |          0 |          1 |          1 |
+| /Users/sophieb/Visual Studio Code/DAT5501-Final-Project/scripts/amazon_beauty_model.py                                | Python           |        132 |         38 |         45 |        215 |
+| /Users/sophieb/Visual Studio Code/DAT5501-Final-Project/scripts/amazon_clothing_model.py                              | Python           |        132 |         12 |         35 |        179 |
+| /Users/sophieb/Visual Studio Code/DAT5501-Final-Project/scripts/amazon_electronics_model.py                           | Python           |        132 |         12 |         35 |        179 |
+| /Users/sophieb/Visual Studio Code/DAT5501-Final-Project/scripts/amazon_health_model.py                                | Python           |        132 |         12 |         35 |        179 |
+| /Users/sophieb/Visual Studio Code/DAT5501-Final-Project/scripts/create_amazon_beautypersonalcare_reviews_dataset.py   | Python           |         13 |          1 |          7 |         21 |
+| /Users/sophieb/Visual Studio Code/DAT5501-Final-Project/scripts/create_amazon_clothingshoesjewelry_reviews_dataset.py | Python           |         13 |          1 |          7 |         21 |
+| /Users/sophieb/Visual Studio Code/DAT5501-Final-Project/scripts/create_amazon_electronics_reviews_dataset.py          | Python           |         13 |          1 |          7 |         21 |
+| /Users/sophieb/Visual Studio Code/DAT5501-Final-Project/scripts/create_amazon_healthhousehold_reviews_dataset.py      | Python           |         13 |          1 |          7 |         21 |
+| /Users/sophieb/Visual Studio Code/DAT5501-Final-Project/scripts/create_figures.py                                     | Python           |        147 |         11 |         41 |        199 |
+| /Users/sophieb/Visual Studio Code/DAT5501-Final-Project/scripts/create_steam_reviews_dataset.py                       | Python           |         42 |          2 |         20 |         64 |
+| /Users/sophieb/Visual Studio Code/DAT5501-Final-Project/scripts/create_yelp_reviews_dataset.py                        | Python           |          9 |          1 |          6 |         16 |
+| /Users/sophieb/Visual Studio Code/DAT5501-Final-Project/scripts/steam_model.py                                        | Python           |        138 |         12 |         36 |        186 |
+| /Users/sophieb/Visual Studio Code/DAT5501-Final-Project/scripts/yelp_model.py                                         | Python           |        123 |         11 |         34 |        168 |
+| Total                                                                                                                 |                  |      1,149 |        125 |        354 |      1,628 |
++-----------------------------------------------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+

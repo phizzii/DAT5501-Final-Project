@@ -1,17 +1,11 @@
-from cProfile import label
-from multiprocessing import Pipe
-import random
 import pandas as pd
 import numpy as np
-from regex import D
-from sqlalchemy import asc
 from textblob import TextBlob
-from datetime import date, datetime
-from datasets import Dataset, load_dataset, load_from_disk
+from datasets import load_from_disk
 
 # modules for training model
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.preprocessing import StandardScaler
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.linear_model import LogisticRegression

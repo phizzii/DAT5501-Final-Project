@@ -18,15 +18,15 @@
 # how i'm mapping these to my hypotheses:
 # H1
 # analysis: label reviews using star ratings (maybe maybe not), extract sentiment & linguistic features, train classifier (decision tree/logic), evaluate performance (precision & recall), inspect feature importance
-# evidence presented: classification report, feature importance plot, discussion of which features dominate
+# potential evidence presented: classification report, feature importance plot, discussion of which features dominate
 
 # H2
 # analysis: filter only negative reviews, group by platform, compare feature distributions (length, sentiment intensity, linguistic markers), train platform specific models or include platform as a feature (not sure yet)
-# evidence presented: boxplot/density plots per platform, feature importance differences, model performance differences
+# potential evidence presented: boxplot/density plots per platform, feature importance differences, model performance differences
 
 # H3
 # analysis: order reviews temporally, track the following; sentiment trend, linguistic intensity trend, average rating trend
-# evidence presented: time series plots, qualitative interpretation
+# potential evidence presented: time series plots, qualitative interpretation
 
 # negative_experience = 1 if rating <= 2
 # negative_experience = 0 if rating >= 4
@@ -34,15 +34,11 @@
 
 # feature engineering BEFORE the training which will come later ;)
 # modules for preprocessing and cleaning dataset
-from multiprocessing import Pipe
-import random
 import pandas as pd
 import numpy as np
-from regex import D
-from sqlalchemy import asc
 from textblob import TextBlob
-from datetime import date, datetime
-from datasets import Dataset, load_dataset, load_from_disk
+from datetime import datetime
+from datasets import load_from_disk
 
 # modules for training model
 from sklearn.model_selection import train_test_split
@@ -83,7 +79,7 @@ def extract_text_features(text):
     sentences = blob.sentences
 
     if len(sentences) == 0:
-        avg_sentence_length = 0.0
+        avg_sentence_length = 0.0 # i know it says both these avg_sentence_length variables are not accessed but i don't want to take my chances and remove it when i know it works...
     else:
         avg_sentence_length = float(np.mean([len(s.words) for s in sentences]))
 

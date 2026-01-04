@@ -1,0 +1,20 @@
+"filename", "language", "YAML", "Python", "Markdown", "Ini", "pip requirements", "comment", "blank", "total"
+"/Users/sophieb/Visual Studio Code/DAT5501-Final-Project/.circleci/config.yml", "YAML", 33, 0, 0, 0, 0, 0, 7, 40
+"/Users/sophieb/Visual Studio Code/DAT5501-Final-Project/README.md", "Markdown", 0, 0, 56, 0, 0, 10, 31, 97
+"/Users/sophieb/Visual Studio Code/DAT5501-Final-Project/pytest.ini", "Ini", 0, 0, 0, 2, 0, 0, 0, 2
+"/Users/sophieb/Visual Studio Code/DAT5501-Final-Project/requirements.txt", "pip requirements", 0, 0, 0, 0, 19, 0, 0, 19
+"/Users/sophieb/Visual Studio Code/DAT5501-Final-Project/scripts/__init__.py", "Python", 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/sophieb/Visual Studio Code/DAT5501-Final-Project/scripts/amazon_beauty_model.py", "Python", 0, 132, 0, 0, 0, 38, 45, 215
+"/Users/sophieb/Visual Studio Code/DAT5501-Final-Project/scripts/amazon_clothing_model.py", "Python", 0, 132, 0, 0, 0, 12, 35, 179
+"/Users/sophieb/Visual Studio Code/DAT5501-Final-Project/scripts/amazon_electronics_model.py", "Python", 0, 132, 0, 0, 0, 12, 35, 179
+"/Users/sophieb/Visual Studio Code/DAT5501-Final-Project/scripts/amazon_health_model.py", "Python", 0, 132, 0, 0, 0, 12, 35, 179
+"/Users/sophieb/Visual Studio Code/DAT5501-Final-Project/scripts/create_amazon_beautypersonalcare_reviews_dataset.py", "Python", 0, 13, 0, 0, 0, 1, 7, 21
+"/Users/sophieb/Visual Studio Code/DAT5501-Final-Project/scripts/create_amazon_clothingshoesjewelry_reviews_dataset.py", "Python", 0, 13, 0, 0, 0, 1, 7, 21
+"/Users/sophieb/Visual Studio Code/DAT5501-Final-Project/scripts/create_amazon_electronics_reviews_dataset.py", "Python", 0, 13, 0, 0, 0, 1, 7, 21
+"/Users/sophieb/Visual Studio Code/DAT5501-Final-Project/scripts/create_amazon_healthhousehold_reviews_dataset.py", "Python", 0, 13, 0, 0, 0, 1, 7, 21
+"/Users/sophieb/Visual Studio Code/DAT5501-Final-Project/scripts/create_figures.py", "Python", 0, 147, 0, 0, 0, 11, 41, 199
+"/Users/sophieb/Visual Studio Code/DAT5501-Final-Project/scripts/create_steam_reviews_dataset.py", "Python", 0, 42, 0, 0, 0, 2, 20, 64
+"/Users/sophieb/Visual Studio Code/DAT5501-Final-Project/scripts/create_yelp_reviews_dataset.py", "Python", 0, 9, 0, 0, 0, 1, 6, 16
+"/Users/sophieb/Visual Studio Code/DAT5501-Final-Project/scripts/steam_model.py", "Python", 0, 138, 0, 0, 0, 12, 36, 186
+"/Users/sophieb/Visual Studio Code/DAT5501-Final-Project/scripts/yelp_model.py", "Python", 0, 123, 0, 0, 0, 11, 34, 168
+"Total", "-", 33, 1039, 56, 2, 19, 125, 354, 1628
