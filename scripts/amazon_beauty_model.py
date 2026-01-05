@@ -92,7 +92,7 @@ def extract_text_features(text):
 
     # average sentence length in words
     if len(sentences) == 0:
-        avg_sentence_length = 0.0 # i know it says both these avg_sentence_length variables are not accessed but i don't want to take my chances and remove it when i know it works...
+        avg_sentence_length = 0.0
     else:
         avg_sentence_length = float(np.mean([len(s.words) for s in sentences]))
 
