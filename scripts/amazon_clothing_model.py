@@ -181,8 +181,10 @@ def main():
     # predict labels on test set
     y_pred = model.predict(x_test)
     
+    # feature names change
     final_feature_names = model.named_steps["preprocess"].get_feature_names_out().tolist()
 
+    # put them into sorted series so i can print it
     feature_importance = pd.Series(
         model.named_steps["classifier"].coef_[0],
         index=final_feature_names).sort_values(key=lambda s: s.abs(), ascending=False)
@@ -191,6 +193,7 @@ def main():
 
     print(classification_report(y_test, y_pred, zero_division=0))
 
+    # save outputs
     output_path = "datasets/processed/amazon_clothing_features.csv"
     dataframe.to_csv(output_path, index=False)
 
@@ -198,8 +201,10 @@ def main():
 
     feature_names = model.named_steps["preprocess"].get_feature_names_out().tolist()
 
+    # logistic regression coefficients (one per final feature)
     coefs = model.named_steps["classifier"].coef_[0]
 
+    # save coefficients to csv for later use
     coef_df = pd.DataFrame({
         "feature": feature_names,
         "coef": coefs
