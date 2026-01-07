@@ -54,12 +54,16 @@ def capture_to_csv_calls(monkeypatch):
     monkeypatch.setattr(NDFrame, "to_csv", _fake_to_csv, raising=True)
     return paths
 
-def run_script_by_path(script_path: str, unique_name: str):
+def run_script_by_path(script_path: str):
     path = pathlib.Path(script_path)
     assert path.exists(), f"Script not found: {path.resolve()}"
 
-    spec = importlib.util.spec_from_file_location(unique_name, path)
+    spec = importlib.util.spec_from_file_location("__main__", path)
     module = importlib.util.module_from_spec(spec)
-    sys.modules[unique_name] = module
+
+    module.__dict__["__name__"] = "__main__"
+
+    sys.modules["__main__"] = module
     spec.loader.exec_module(module)
     return module
+
