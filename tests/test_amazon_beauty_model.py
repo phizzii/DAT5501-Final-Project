@@ -6,6 +6,7 @@ from tests.model_helpers import (
     install_fake_datasets_load_from_disk,
     install_fake_textblob,
     capture_to_csv_calls,
+    run_script_by_path
 )
 
 def test_amazon_health_model_smoke(monkeypatch):
@@ -28,10 +29,11 @@ def test_amazon_health_model_smoke(monkeypatch):
     if module_name in sys.modules:
         del sys.modules[module_name]
 
-    importlib.import_module(module_name)
+    run_script_by_path("scripts/amazon_beauty_model.py", "amazon_beauty_model_smoke")
+
 
     assert "datasets/processed/amazon_beauty_features.csv" in csv_paths
     assert "datasets/csvs/amazon_beauty.csv" in csv_paths
     assert "coefs/amazon_beauty_coefs.csv" in csv_paths
 
-
+    assert csv_paths, "No CSV writes were captured; script likely did not execute main()"
