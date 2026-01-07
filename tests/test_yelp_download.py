@@ -7,12 +7,16 @@ def test_script_smoke_import_and_saves(monkeypatch):
 
     class FakeYelpDataset:
         features = {"text": "string", "label": "int64"}
-        def __iter__(self):
-            yield {"asin": "B000TEST", "overall": 5}
 
         def __init__(self):
             self.saved_path = None
 
+        def shuffle(self, seed):
+            return self
+        
+        def select(self, indices):
+            return self 
+        
         def save_to_disk(self, path):
             self.saved_path = path
 

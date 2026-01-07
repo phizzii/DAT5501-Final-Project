@@ -2,44 +2,53 @@ import importlib
 import sys
 import types
 
+from regex import F
+
 
 def test_script_smoke_import_and_saves(monkeypatch):
 
-    class FakeStream:
-        def __iter__(self):
-            # first = next(iter(dataset_stream)) needs at least one dict
-            yield {"asin": "B000TEST", "overall": 5}
-
-        def shuffle(self, buffer_size, seed):
-            return self
-
-    class FakeDataset:
-        def __init__(self, items):
-            self.items = items
+    class FakeHFDataset:
+        def __init__(self):
             self.saved_path = None
 
         def save_to_disk(self, path):
             self.saved_path = path
 
-    fake_stream = FakeStream()
     created = {"dataset": None}
 
     fake_datasets = types.ModuleType("datasets")
 
-    def load_dataset(*args, **kwargs):
-        return fake_stream
-
     class Dataset:
         @staticmethod
+        def from_pandas(df):
+            created["dataset"] = FakeHFDataset()
+            return created["dataset"]
+        
         def from_list(items):
-            created["dataset"] = FakeDataset(items)
+            created["dataset"] = FakeHFDataset(items)
             return created["dataset"]
 
-    fake_datasets.load_dataset = load_dataset
     fake_datasets.Dataset = Dataset
-
-    # inject fake module BEFORE importing
     monkeypatch.setitem(sys.modules, "datasets", fake_datasets)
+
+    fake_langdetect = types.ModuleType("langdetect")
+    fake_langdetect.detect = lambda text: "en"
+
+    class _DetectorFactory:
+        seed = 0
+
+    fake_langdetect.DetectorFactory = _DetectorFactory
+    fake_langdetect.LangDetectException = Exception
+    monkeypatch.setitem(sys.modules, "langdetect", fake_langdetect)
+
+    monkeypatch.setattr("os.listdir", lambda _: ["fake.csv"])
+
+    import pandas as pd
+    monkeypatch.setattr(
+        pd,
+        "read_csv",
+        lambda *args, **kwargs: pd.DataFrame([{"review": "Great game", "recommendationid": 1}]),
+    )
 
     module_name = "scripts.create_steam_reviews_dataset"
 
