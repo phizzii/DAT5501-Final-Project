@@ -212,4 +212,5 @@ def main():
 
     coef_df.to_csv("coefs/amazon_health_coefs.csv", index=False)
 
-main()
+if __name__ == "__main__":
+    main()
