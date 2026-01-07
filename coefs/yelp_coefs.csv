@@ -1,8 +1,8 @@
 feature,coef
-num_scaler__review_length_chars,-2.444505832519673
-num_scaler__sentiment_polarity,-1.8012742880278274
-num_scaler__exclamation_count,-0.4312310574030324
-num_scaler__capital_ratio,-0.10718264515985426
-num_scaler__sentiment_subjectivity,0.04039925325773064
-num_scaler__avg_sentence_length,0.04203607571979022
-num_scaler__review_length_words,2.6694537591153087
+num_scaler__review_length_chars,-2.026951248683263
+num_scaler__sentiment_polarity,-1.790831962477911
+num_scaler__exclamation_count,-0.41453791498085407
+num_scaler__capital_ratio,-0.09790086330341101
+num_scaler__avg_sentence_length,0.07623342510555584
+num_scaler__sentiment_subjectivity,0.08637538998291153
+num_scaler__review_length_words,2.2538991520361438
