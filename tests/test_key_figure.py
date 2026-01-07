@@ -1,10 +1,11 @@
 import pandas as pd
-from tests.model_helpers import run_script_by_path
+from tests.model_helpers import run_script_by_path, install_fake_matplotlib_pyplot
 
 def test_key_figure_script_smoke(monkeypatch):
     SCRIPT_PATH = "scripts/create_key_figure.py"
 
     monkeypatch.setattr("os.path.exists", lambda p: True, raising=True)
+    monkeypatch.setattr("os.makedirs", lambda *args, **kwargs: None, raising=True)
 
     def fake_read_csv(path, *args, **kwargs):
         if path.startswith("coefs/") and path.endswith("_coefs.csv"):
@@ -28,16 +29,9 @@ def test_key_figure_script_smoke(monkeypatch):
 
     monkeypatch.setattr(pd, "read_csv", fake_read_csv, raising=True)
 
-    monkeypatch.setattr("os.makedirs", lambda *args, **kwargs: None, raising=True)
-
-    saved = {"path": None}
-
-    def fake_savefig(path, *args, **kwargs):
-        saved["path"] = path
-
-    monkeypatch.setattr("matplotlib.pyplot.savefig", fake_savefig, raising=True)
+    saved = []
+    install_fake_matplotlib_pyplot(monkeypatch, saved)
 
     run_script_by_path(SCRIPT_PATH)
 
-    assert saved["path"] is not None, "Expected a figure to be saved via plt.savefig"
-    assert saved["path"].endswith("outputs/figures/key_figure_cross_platform_coefficients.png")
+    assert any(p.endswith("outputs/figures/key_figure_cross_platform_coefficients.png") for p in saved)

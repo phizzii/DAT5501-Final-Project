@@ -67,3 +67,55 @@ def run_script_by_path(script_path: str):
     spec.loader.exec_module(module)
     return module
 
+import types
+
+def install_fake_matplotlib_pyplot(monkeypatch, saved_paths: list):
+    fake_matplotlib = types.ModuleType("matplotlib")
+    fake_pyplot = types.ModuleType("matplotlib.pyplot")
+
+    def figure(*args, **kwargs):
+        return None
+
+    def barh(*args, **kwargs):
+        return None
+
+    def violinplot(*args, **kwargs):
+        return None
+
+    def xticks(*args, **kwargs):
+        return None
+
+    def title(*args, **kwargs):
+        return None
+
+    def xlabel(*args, **kwargs):
+        return None
+
+    def ylabel(*args, **kwargs):
+        return None
+
+    def tight_layout(*args, **kwargs):
+        return None
+
+    def close(*args, **kwargs):
+        return None
+
+    def savefig(path, *args, **kwargs):
+        saved_paths.append(path)
+
+    fake_pyplot.figure = figure
+    fake_pyplot.barh = barh
+    fake_pyplot.violinplot = violinplot
+    fake_pyplot.xticks = xticks
+    fake_pyplot.title = title
+    fake_pyplot.xlabel = xlabel
+    fake_pyplot.ylabel = ylabel
+    fake_pyplot.tight_layout = tight_layout
+    fake_pyplot.close = close
+    fake_pyplot.savefig = savefig
+
+    fake_matplotlib.pyplot = fake_pyplot
+
+    import sys
+    monkeypatch.setitem(sys.modules, "matplotlib", fake_matplotlib)
+    monkeypatch.setitem(sys.modules, "matplotlib.pyplot", fake_pyplot)

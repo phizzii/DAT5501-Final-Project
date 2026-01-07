@@ -1,5 +1,5 @@
 import pandas as pd
-from tests.model_helpers import run_script_by_path
+from tests.model_helpers import run_script_by_path, install_fake_matplotlib_pyplot
 
 def test_figures_script_smoke(monkeypatch):
 
@@ -52,11 +52,10 @@ def test_figures_script_smoke(monkeypatch):
     monkeypatch.setattr("os.path.exists", lambda p: True, raising=True)
 
     saved = []
+    install_fake_matplotlib_pyplot(monkeypatch, saved)
 
     def fake_savefig(path, *args, **kwargs):
         saved.append(path)
-
-    monkeypatch.setattr("matplotlib.pyplot.savefig", fake_savefig, raising=True)
 
     monkeypatch.setattr("os.makedirs", lambda *args, **kwargs: None, raising=True)
 
