@@ -28,5 +28,6 @@ def test_yelp_model_smoke(monkeypatch):
     importlib.import_module(module_name)
 
     assert "datasets/processed/yelp_features.csv" in csv_paths
-    assert "coefs/yelp_coefs.csv" in csv_paths
     assert "datasets/csvs/yelp_reviews.csv" in csv_paths
+    assert "coefs/yelp_coefs.csv" in csv_paths
+

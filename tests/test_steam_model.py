@@ -32,5 +32,5 @@ def test_steam_model_smoke(monkeypatch):
     importlib.import_module(module_name)
 
     assert "datasets/processed/steam_features.csv" in csv_paths
+    assert "datasets/csvs/steam_reviews.csv" in csv_paths   
     assert "coefs/steam_coefs.csv" in csv_paths
-    assert "datasets/csvs/steam_reviews.csv" in csv_paths
