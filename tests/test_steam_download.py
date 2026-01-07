@@ -25,7 +25,7 @@ def test_script_smoke_import_and_saves(monkeypatch):
             return created["dataset"]
         
         def from_list(items):
-            created["dataset"] = FakeHFDataset(items)
+            created["dataset"] = FakeHFDataset()
             return created["dataset"]
 
     fake_datasets.Dataset = Dataset
