@@ -5,38 +5,26 @@ import types
 
 def test_script_smoke_import_and_saves(monkeypatch):
 
-    class FakeStream:
+    class FakeYelpDataset:
+        features = {"text": "string", "label": "int64"}
         def __iter__(self):
-            # first = next(iter(dataset_stream)) needs at least one dict
             yield {"asin": "B000TEST", "overall": 5}
 
-        def shuffle(self, buffer_size, seed):
-            return self
-
-    class FakeDataset:
-        def __init__(self, items):
-            self.items = items
+        def __init__(self):
             self.saved_path = None
 
         def save_to_disk(self, path):
             self.saved_path = path
 
-    fake_stream = FakeStream()
-    created = {"dataset": None}
+    fake_dataset = FakeYelpDataset()
+    created = {"dataset": fake_dataset}
 
     fake_datasets = types.ModuleType("datasets")
 
     def load_dataset(*args, **kwargs):
-        return fake_stream
-
-    class Dataset:
-        @staticmethod
-        def from_list(items):
-            created["dataset"] = FakeDataset(items)
-            return created["dataset"]
+        return fake_dataset
 
     fake_datasets.load_dataset = load_dataset
-    fake_datasets.Dataset = Dataset
 
     # inject fake module BEFORE importing
     monkeypatch.setitem(sys.modules, "datasets", fake_datasets)

@@ -11,3 +11,4 @@ scikit-learn
 graphviz
 textblob
 datasets
+langdetect

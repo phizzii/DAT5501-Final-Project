@@ -50,4 +50,4 @@ def test_script_smoke_import_and_saves(monkeypatch):
 
     # assert created
     assert created["dataset"] is not None
-    assert created["dataset"].saved_path == "datasets/amazon_electronics_reviews_10k"
+    assert created["dataset"].saved_path == "datasets/amazon_electronic_reviews_10k"
