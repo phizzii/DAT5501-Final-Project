@@ -29,9 +29,25 @@ def test_key_figure_script_smoke(monkeypatch):
 
     monkeypatch.setattr(pd, "read_csv", fake_read_csv, raising=True)
 
+    class FakeAx:
+        def set_title(self, *args, **kwargs):
+            return None
+
+        def set_xlabel(self, *args, **kwargs):
+            return None
+
+        def set_ylabel(self, *args, **kwargs):
+            return None
+
+    monkeypatch.setattr(pd.DataFrame, "plot", lambda *args, **kwargs: FakeAx(), raising=True)
+
     saved = []
     install_fake_matplotlib_pyplot(monkeypatch, saved)
 
+    # Run script
     run_script_by_path(SCRIPT_PATH)
 
-    assert any(p.endswith("outputs/figures/key_figure_cross_platform_coefficients.png") for p in saved)
+    assert any(
+        p.endswith("outputs/figures/key_figure_cross_platform_coefficients.png")
+        for p in saved
+    )
