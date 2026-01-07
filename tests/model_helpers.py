@@ -1,5 +1,6 @@
 import types
 import pandas as pd
+from pandas.core.generic import NDFrame
 
 
 class FakeArrowDataset:
@@ -47,5 +48,5 @@ def capture_to_csv_calls(monkeypatch):
     def _fake_to_csv(self, path, *args, **kwargs):
         paths.append(path)
 
-    monkeypatch.setattr(pd.DataFrame, "to_csv", _fake_to_csv, raising=True)
+    monkeypatch.setattr(NDFrame, "to_csv", _fake_to_csv, raising=True)
     return paths

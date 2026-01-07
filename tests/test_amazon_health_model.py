@@ -31,5 +31,6 @@ def test_amazon_health_model_smoke(monkeypatch):
     importlib.import_module(module_name)
 
     assert "datasets/processed/amazon_health_features.csv" in csv_paths
-    assert "coefs/amazon_health_coefs.csv" in csv_paths
     assert "datasets/csvs/amazon_health.csv" in csv_paths
+    assert "coefs/amazon_health_coefs.csv" in csv_paths
+
