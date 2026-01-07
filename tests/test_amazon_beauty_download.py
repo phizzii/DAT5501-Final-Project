@@ -41,7 +41,6 @@ def test_script_smoke_import_and_saves(monkeypatch):
     # inject fake module BEFORE importing
     monkeypatch.setitem(sys.modules, "datasets", fake_datasets)
 
-    # IMPORTANT: set this to your actual script module path
     module_name = "scripts.create_beautypersonalcare_reviews_dataset"
 
     if module_name in sys.modules:
