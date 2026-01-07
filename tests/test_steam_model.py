@@ -23,7 +23,7 @@ def test_steam_model_smoke(monkeypatch):
     install_fake_textblob(monkeypatch, polarity=0.05, subjectivity=0.1)
     csv_paths = capture_to_csv_calls(monkeypatch)
 
-    run_script_by_path("scripts/steam_model.py", "steam_model_smoke")
+    run_script_by_path("scripts/steam_model.py")
 
     assert "datasets/processed/steam_features.csv" in csv_paths
     assert "datasets/csvs/steam_reviews.csv" in csv_paths
